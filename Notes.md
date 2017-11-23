@@ -21,3 +21,25 @@
 -If r is chosen from a probability distribution that has high min-entropy, then given H(r |x), it is infeasible to find x.  
 -High min-entropy means that the distribution is "very spread out", so that no particular value is chosen with more than negligible probability.  
 #### puzzle-friendly  
+
+### Commitment API
+(com, key) := commit(msg)  
+match := verify(comm, key, msg)  
+
+To seal msg in envelope:  
+  (com, key) := commit(msg) -- then public com  
+To open envelope:
+  public key, msg
+  anyone can use verify() to check validity  
+  
+#### Security Properties
+Hiding: Given com, infeasible to find msg.  
+Binding: Infeasible to find msg != msg' such that verify(commit(msg), msg') == true  
+
+commit(msg) := ( H(key | msg), key), where key is a random 256-bit value  
+verify(com, key, msg) := ( H(key | msg) == com)  
+
+Security properties:  
+Hiding: Given H(key | msg), infeasible to find msg.  
+Binding: Infeasible to find msg != msg' such that H(key | msg) == H(key | msg')  
+
